@@ -6,21 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/Flask-Session2-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/Flask-Session2-{{ version }}.tar.gz
   sha256: 171e986d4e314795f448a527095e42df6abfba76c3e4ce5c8e4c61c857c59cb2
 
 build:
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 1
 
 requirements:
   host:
-    - python >=3.7,<4.0
+    - python {{ python_min }}
     - poetry-core >=1.0.0
     - pip
   run:
-    - python >=3.7.2,<4.0.0
+    - python >={{ python_min }},<4.0.0
     - flask >=2.2.2,<3.0.0
     - cachelib >=0.9.0,<0.10.0
     - pytz >=2022.2.1,<2023.0.0
@@ -32,6 +32,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: Adds server-side session support to your Flask application
